@@ -16,17 +16,20 @@
         <div class="row justify-content-center">
             <form class="col-6" action="/index" method="post" enctype="multipart/form-data"> 
                 <label for="exampleInputEmail1" class="form-label">Full Name</label>
-                <input name="fname" class="form-control mb-3" type="text" placeholder="Default input">
+                <input name="fname" class="form-control mb-3" type="text" placeholder="Default input" required>
                 <label for="exampleInputEmail1" class="form-label">User Name</label>
                 <input name="user" class="form-control mb-3" type="text" placeholder="Default input"
-                    aria-label="default input example">
+                    aria-label="default input example" required>
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input name="email" type="email" class="form-control mb-3" aria-describedby="emailHelp">
+                <input name="email" type="email" class="form-control mb-3" aria-describedby="emailHelp" required>
                 <label for="formFile" class="form-label">Profile Imag</label>
-                <input name="img" class="form-control mb-3" type="file">
+                <input name="img" class="form-control mb-3" type="file" required>
                 <label for="formFile" class="form-label">CV</label>
-                <input name="cv" class="form-control mb-3" type="file">
+                <input name="cv" class="form-control mb-3" type="file" required>
                 <button type="submit" class="btn btn-dark w-100">Submit</button>
+                <% if (eror) { %>
+                    <div class="alert alert-danger mt-3 text-center" role="alert">Data Already Exist !!! <br> Please Try Again</div>
+                <% } %>
             </form>
         </div>
     </div>

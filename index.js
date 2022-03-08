@@ -14,35 +14,40 @@ console.log("server strtaed");
 
 app.use(express.static('public'));
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("index", {eror:false});
 });
+
+app.get("/show", (req, res) => {
+  res.render("show");
+});
+
 app.post("/edite", (req, res) => {
   console.log(req);
   console.log("hellow world");
   res.end();
 });
 
-app.post("/index", upload.single("img"), upload.single("cv"), async (req, res) => {
+app.post("/index", upload.fields([{ name: 'img', maxCount: 1 }, { name: 'cv', maxCount: 8 }]), async (req, res) => {
   console.log(req.file);
   let data = {
     full_name: req.body.fname,
     user_name: req.body.fname,
     email: req.body.fname,
-    img: req.file.filename,
-    cv: req.file.filename
+    img: req.files['img'][0].filename,
+    cv: req.files['cv'][0].filename
   }
-  skill = new SkillModel(data);
-  await skill.save();
 
-  let user = await UserModel.find();
-  // UserModel.updateOne(
-  //     { _id: user[0]._id }, 
-  //     { $push: { skill: skill.id } },
-  // );
-  await user[0].addSkill(skill._id);
-  user[0].save();
-  console.log(user[0])
-  res.redirect("/index");
+  user = new UserModel(data);
+  // await user.save();
+  // res.redirect("/show");
+
+  await user.save(function (err) {
+    if (err) {
+      res.render("index", {eror:true});
+    }
+    else
+    res.redirect("show")
+  });
 });
 
 app.listen(PORT);

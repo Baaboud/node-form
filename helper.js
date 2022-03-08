@@ -2,10 +2,10 @@ const multer = require("multer")
 // configure multer 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    if (file.mimetype == "image/jpg" || "image/png")
-      cb(null, 'public/uploads/images')
-    if (file.mimetype == "application/pdf")
-      cb(null, 'public/uploads/pdf')
+    if (file.fieldname == 'cv')
+      cb(null, "public/uploads/pdfs/");
+    else if (file.fieldname == 'img')
+      cb(null, "public/uploads/images/");
   },
   filename: function (req, file, cb) {
     // console.log("jhhhjh");
@@ -14,22 +14,3 @@ const storage = multer.diskStorage({
 })
 
 module.exports = multer({ storage: storage });
-// remove
-// Model.exists()s
-/**
-    multer filter
-    ,{multerFilter:multerFilter}
-    const multerFilter=(req,file,cb)=>{
-      if(file.mimetype.split('/')[1]==='pdf'){
-        cb(null,true)
-      }else{
-        cb(new Error('Not a PDF file'))
-      }
-      }
-    };
-    const upload=multer({
-      storage:multerStorage,
-      fileFilter:multerFilters
-    })
-    
-    */
